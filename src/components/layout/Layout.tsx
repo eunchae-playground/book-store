@@ -1,17 +1,23 @@
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
+import styled from "styled-components";
 import Footer from "../common/Footer";
 import Header from "../common/Header";
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-export default function Layout({ children }: LayoutProps) {
+export default function Layout() {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <LayoutStyle>
+        <Outlet />
+      </LayoutStyle>
       <Footer />
     </>
   );
 }
+
+const LayoutStyle = styled.main`
+  width: 100%;
+  margin: 0 auto;
+  max-width: ${({ theme }) => theme.layout.width.large};
+  padding: 20px 0;
+`;
