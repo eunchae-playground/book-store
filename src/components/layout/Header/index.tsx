@@ -1,8 +1,9 @@
 import { FaRegUser, FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../assets/images/logo.png";
-import useCategories from "../../hooks/useCategories";
+import logo from "../../../assets/images/logo.png";
+import useCategories from "../../../hooks/useCategories";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
   const { categories } = useCategories();
@@ -11,6 +12,7 @@ export default function Header() {
       <Link to="/">
         <img className="logo" src={logo} alt="book store logo" />
       </Link>
+
       <nav className="category">
         <ul>
           {categories.map((category) => (
@@ -45,6 +47,8 @@ export default function Header() {
           </li>
         </ul>
       </nav>
+
+      <ThemeSwitcher />
     </HeaderStyle>
   );
 }

@@ -1,15 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { ReactNode } from "react";
 import styled from "styled-components";
-import Footer from "../common/Footer";
-import Header from "../common/Header";
+import Footer from "./Footer";
+import Header from "./Header";
 
-export default function Layout() {
+interface Props {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <LayoutStyle>
-        <Outlet />
-      </LayoutStyle>
+      <LayoutStyle>{children}</LayoutStyle>
       <Footer />
     </>
   );
