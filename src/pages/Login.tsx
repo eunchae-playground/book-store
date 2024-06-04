@@ -2,19 +2,20 @@ import { isAxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
-import { signup } from "../api/auth.api";
+import { login } from "../api/auth.api";
 import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
+import { useAuthStore } from "../store/authStore";
+import { SignupStyle } from "./Signup";
 
-export interface SignupProps {
+export interface LoginProps {
   email: string;
   password: string;
 }
 
-function Signup() {
+function Login() {
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
     null
   );
@@ -22,26 +23,30 @@ function Signup() {
   const navigate = useNavigate();
   const showAlert = useAlert();
 
+  const { storeLogin } = useAuthStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupProps>();
+  } = useForm<LoginProps>();
 
-  const onSubmit = async (data: SignupProps) => {
+  const onSubmit = async (data: LoginProps) => {
     try {
-      await signup(data);
-      showAlert("회원가입이 완료되었습니다.");
-      navigate("/login");
+      await login(data);
+      storeLogin();
+      showAlert("로그인이 완료되었습니다.");
+      navigate("/");
     } catch (error) {
       if (isAxiosError(error)) {
         setServerErrorMessage(error.response!.data.message);
       }
     }
   };
+  
   return (
     <>
-      <Title size="large">회원가입</Title>
+      <Title size="large">로그인</Title>
       <SignupStyle>
         <form method="post" onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
@@ -69,11 +74,12 @@ function Signup() {
               <p className="error-text">{serverErrorMessage}</p>
             )}
             <Button type="submit" size="medium" scheme="primary">
-              회원가입
+              로그인
             </Button>
           </fieldset>
           <div className="info">
-            <Link to="/login">로그인</Link>
+            <Link to="/signup">회원가입</Link>
+            <Link to="/reset-password">비밀번호 초기화</Link>
           </div>
         </form>
       </SignupStyle>
@@ -81,32 +87,4 @@ function Signup() {
   );
 }
 
-export const SignupStyle = styled.div`
-  max-width: ${({ theme }) => theme.layout.width.small};
-  margin: 80px auto;
-
-  fieldset {
-    border: 0;
-    padding: 0 0 8px 8;
-    .error-text {
-      color: red;
-    }
-  }
-
-  input {
-    width: 100%;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .info {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 16px;
-  }
-`;
-
-export default Signup;
+export default Login;

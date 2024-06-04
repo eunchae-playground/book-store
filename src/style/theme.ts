@@ -97,7 +97,7 @@ export const light: Theme = {
     secondary: "#5f5f5f",
     background: "lightgrey",
     third: "green",
-    border: "gray",
+    border: "lightgray",
     text: "black",
   },
 };

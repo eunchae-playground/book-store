@@ -1,12 +1,28 @@
-import { FaRegUser, FaSignInAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaRegUser, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { logout } from "../../../api/auth.api";
 import logo from "../../../assets/images/logo.png";
 import useCategories from "../../../hooks/useCategories";
+import { useAuthStore } from "../../../store/authStore";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
   const { categories } = useCategories();
+  const navigate = useNavigate();
+  const { isLoggedIn, storeLogout } = useAuthStore();
+
+  const handleClickLogoutButton = async () => {
+    try {
+      await logout();
+      storeLogout();
+      alert("로그아웃 되었습니다.");
+      navigate(0);
+    } catch (error) {
+      alert("로그아웃 도중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <HeaderStyle>
       <Link to="/">
@@ -33,18 +49,40 @@ export default function Header() {
 
       <nav className="auth">
         <ul>
-          <li>
-            <Link to="/login">
-              <FaSignInAlt />
-              로그인
-            </Link>
-          </li>
-          <li>
-            <Link to="/signup">
-              <FaRegUser />
-              회원가입
-            </Link>
-          </li>
+          {isLoggedIn ? (
+            <>
+              <li>
+                <Link to="carts">장바구니</Link>
+              </li>
+              <li>
+                <Link to="orders">주문내역</Link>
+              </li>
+              <li>
+                <div
+                  className="logout-button"
+                  onClick={handleClickLogoutButton}
+                >
+                  <FaSignOutAlt />
+                  로그아웃
+                </div>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to="/login">
+                  <FaSignInAlt />
+                  로그인
+                </Link>
+              </li>
+              <li>
+                <Link to="/signup">
+                  <FaRegUser />
+                  회원가입
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
 
@@ -92,6 +130,12 @@ const HeaderStyle = styled.header`
       display: flex;
       gap: 16px;
       li {
+        .logout-button {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+        }
+
         a {
           display: flex;
           align-items: center;
