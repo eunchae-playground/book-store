@@ -7,14 +7,14 @@ import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
-import { SignupStyle } from "./Signup";
+import { SignupPageStyle } from "./SignupPage";
 
 interface ResetPasswordForm {
   email: string;
   password: string;
   confirmPassword: string;
 }
-function ResetPassword() {
+function ResetPasswordPage() {
   const navigate = useNavigate();
   const showAlert = useAlert();
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
@@ -67,7 +67,7 @@ function ResetPassword() {
   return (
     <>
       <Title size="large">비밀번호 초기화</Title>
-      <SignupStyle>
+      <SignupPageStyle>
         <form method="post" onSubmit={handleSubmit(onSubmit)}>
           {!isResetRequestCompleted && (
             <fieldset>
@@ -126,9 +126,9 @@ function ResetPassword() {
             <Link to="/login">로그인</Link>
           </div>
         </form>
-      </SignupStyle>
+      </SignupPageStyle>
     </>
   );
 }
 
-export default ResetPassword;
+export default ResetPasswordPage;

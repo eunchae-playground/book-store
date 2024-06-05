@@ -10,7 +10,7 @@ import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
 import { SignupRequest } from "../models/auth.model";
 
-function Signup() {
+function SignupPage() {
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
     null
   );
@@ -38,7 +38,7 @@ function Signup() {
   return (
     <>
       <Title size="large">회원가입</Title>
-      <SignupStyle>
+      <SignupPageStyle>
         <form method="post" onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
             <InputText
@@ -72,12 +72,12 @@ function Signup() {
             <Link to="/login">로그인</Link>
           </div>
         </form>
-      </SignupStyle>
+      </SignupPageStyle>
     </>
   );
 }
 
-export const SignupStyle = styled.div`
+export const SignupPageStyle = styled.div`
   max-width: ${({ theme }) => theme.layout.width.small};
   margin: 80px auto;
 
@@ -105,4 +105,4 @@ export const SignupStyle = styled.div`
   }
 `;
 
-export default Signup;
+export default SignupPage;

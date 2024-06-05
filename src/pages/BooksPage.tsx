@@ -8,7 +8,7 @@ import Pagination from "../components/common/Pagination";
 import Title from "../components/common/Title";
 import useBooks from "../hooks/useBooks";
 
-function Books() {
+function BooksPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryId = searchParams.get("category_id")
     ? Number(searchParams.get("category_id"))
@@ -21,7 +21,7 @@ function Books() {
   return (
     <>
       <Title size="large">도서 검색 결과</Title>
-      <BooksStyle>
+      <BooksPageStyle>
         <div className="filter-wrapper">
           <BooksFilter />
           <BooksViewSwitcher />
@@ -35,12 +35,12 @@ function Books() {
           </>
         )}
         {books && isEmpty && <BooksEmpty />}
-      </BooksStyle>
+      </BooksPageStyle>
     </>
   );
 }
 
-const BooksStyle = styled.div`
+const BooksPageStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,4 +54,4 @@ const BooksStyle = styled.div`
   }
 `;
 
-export default Books;
+export default BooksPage;

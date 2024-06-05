@@ -1,11 +1,11 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import Error from "./components/common/Error";
 import Layout from "./components/layout/Layout";
-import Books from "./pages/Books";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import ResetPassword from "./pages/ResetPassword";
-import Signup from "./pages/Signup";
+import BooksPage from "./pages/BooksPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import SignupPage from "./pages/SignupPage";
 
 const router = createBrowserRouter([
   {
@@ -15,23 +15,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: "/signup",
-        element: <Signup />,
+        element: <SignupPage />,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <LoginPage />,
       },
       {
         path: "/reset-password",
-        element: <ResetPassword />,
+        element: <ResetPasswordPage />,
       },
       {
         path: "/books",
-        element: <Books />,
+        element: <BooksPage />,
       },
     ],
   },

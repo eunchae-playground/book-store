@@ -9,9 +9,9 @@ import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
 import { LoginRequest } from "../models/auth.model";
 import { useAuthStore } from "../store/authStore";
-import { SignupStyle } from "./Signup";
+import { SignupPageStyle } from "./SignupPage";
 
-function Login() {
+function LoginPage() {
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
     null
   );
@@ -43,7 +43,7 @@ function Login() {
   return (
     <>
       <Title size="large">로그인</Title>
-      <SignupStyle>
+      <SignupPageStyle>
         <form method="post" onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
             <InputText
@@ -78,9 +78,9 @@ function Login() {
             <Link to="/reset-password">비밀번호 초기화</Link>
           </div>
         </form>
-      </SignupStyle>
+      </SignupPageStyle>
     </>
   );
 }
 
-export default Login;
+export default LoginPage;
