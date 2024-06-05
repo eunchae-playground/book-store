@@ -3,3 +3,8 @@ export interface Category {
   name: string;
   isActive?: boolean;
 }
+
+export type CategoriesResponse = Array<{
+  id: number;
+  name: string;
+}>;

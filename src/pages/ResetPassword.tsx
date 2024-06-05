@@ -1,22 +1,25 @@
+import { isAxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { resetPassword, resetPasswordRequest } from "../api/auth.api";
+import { resetPassword, resetPasswordAuthenticate } from "../api/auth.api";
 import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
 import { SignupStyle } from "./Signup";
 
-export interface ResetPasswordProps {
+interface ResetPasswordForm {
   email: string;
   password: string;
   confirmPassword: string;
 }
-
 function ResetPassword() {
   const navigate = useNavigate();
   const showAlert = useAlert();
+  const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
+    null
+  );
   const [isResetRequestCompleted, setIsResetRequestCompleted] = useState(false);
 
   const {
@@ -24,10 +27,23 @@ function ResetPassword() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<ResetPasswordProps>();
+  } = useForm<ResetPasswordForm>();
 
-  const onSubmit = (data: ResetPasswordProps) => {
+  const onSubmit = async (data: ResetPasswordForm) => {
     const { email, password, confirmPassword } = data;
+
+    if (!isResetRequestCompleted) {
+      try {
+        await resetPasswordAuthenticate({ email });
+        setIsResetRequestCompleted(true);
+        setServerErrorMessage(null);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          setServerErrorMessage(error.response!.data.message);
+        }
+      }
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("confirmPassword", {
@@ -37,18 +53,17 @@ function ResetPassword() {
       return;
     }
 
-    if (!isResetRequestCompleted) {
-      resetPasswordRequest({ email }).then(() => {
-        setIsResetRequestCompleted(true);
-      });
-      return;
-    }
-
-    resetPassword({ password, confirmPassword }).then(() => {
+    try {
+      await resetPassword({ email, password });
       showAlert("비밀번호가 초기화되었습니다.");
       navigate("/login");
-    });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        setServerErrorMessage(error.response!.data.message);
+      }
+    }
   };
+
   return (
     <>
       <Title size="large">비밀번호 초기화</Title>
@@ -99,10 +114,14 @@ function ResetPassword() {
           )}
 
           <fieldset>
+            {serverErrorMessage && (
+              <p className="error-text">{serverErrorMessage}</p>
+            )}
             <Button type="submit" size="medium" scheme="primary">
               {isResetRequestCompleted ? "비밀번호 초기화" : "초기화 요청"}
             </Button>
           </fieldset>
+
           <div className="info">
             <Link to="/login">로그인</Link>
           </div>

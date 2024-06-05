@@ -8,11 +8,7 @@ import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
-
-export interface SignupProps {
-  email: string;
-  password: string;
-}
+import { SignupRequest } from "../models/auth.model";
 
 function Signup() {
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
@@ -26,9 +22,9 @@ function Signup() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupProps>();
+  } = useForm<SignupRequest>();
 
-  const onSubmit = async (data: SignupProps) => {
+  const onSubmit = async (data: SignupRequest) => {
     try {
       await signup(data);
       showAlert("회원가입이 완료되었습니다.");

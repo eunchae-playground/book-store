@@ -1,6 +1,9 @@
-import { LoginProps } from "../pages/Login";
-import { ResetPasswordProps } from "../pages/ResetPassword";
-import { SignupProps } from "../pages/Signup";
+import {
+  LoginRequest,
+  ResetPasswordAuthenticateRequest,
+  ResetPasswordRequest,
+  SignupRequest,
+} from "../models/auth.model";
 import { authenticationHttpClient, httpClient } from "./http";
 
 export const authenticate = async () => {
@@ -9,14 +12,14 @@ export const authenticate = async () => {
   return response.data;
 };
 
-export const signup = async (data: SignupProps) => {
-  const response = await httpClient.post("/join", data);
+export const signup = async (req: SignupRequest) => {
+  const response = await httpClient.post("/join", req);
 
   return response.data;
 };
 
-export const login = async (data: LoginProps) => {
-  const response = await httpClient.post("/login", data);
+export const login = async (req: LoginRequest) => {
+  const response = await httpClient.post("/login", req);
 
   return response.data;
 };
@@ -27,18 +30,19 @@ export const logout = async () => {
   return response.data;
 };
 
-export const resetPasswordRequest = async (
-  data: Pick<ResetPasswordProps, "email">
+export const resetPasswordAuthenticate = async (
+  req: ResetPasswordAuthenticateRequest
 ) => {
-  const response = await httpClient.post("/users/reset-password/request", data);
+  const response = await httpClient.post(
+    "/users/reset-password/authenticate",
+    req
+  );
 
   return response.data;
 };
 
-export const resetPassword = async (
-  data: Omit<ResetPasswordProps, "email">
-) => {
-  const response = await httpClient.put("/users/reset-password/complete", data);
+export const resetPassword = async (req: ResetPasswordRequest) => {
+  const response = await httpClient.put("/users/reset-password", req);
 
   return response.data;
 };

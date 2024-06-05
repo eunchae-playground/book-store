@@ -7,13 +7,9 @@ import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
 import useAlert from "../hooks/useAlert";
+import { LoginRequest } from "../models/auth.model";
 import { useAuthStore } from "../store/authStore";
 import { SignupStyle } from "./Signup";
-
-export interface LoginProps {
-  email: string;
-  password: string;
-}
 
 function Login() {
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
@@ -29,9 +25,9 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginProps>();
+  } = useForm<LoginRequest>();
 
-  const onSubmit = async (data: LoginProps) => {
+  const onSubmit = async (data: LoginRequest) => {
     try {
       await login(data);
       storeLogin();
@@ -43,7 +39,7 @@ function Login() {
       }
     }
   };
-  
+
   return (
     <>
       <Title size="large">로그인</Title>

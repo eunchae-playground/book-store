@@ -1,3 +1,5 @@
+import { PaginationData } from "./pagination.model";
+
 export interface Book {
   id: number;
   categoryId: number;
@@ -15,4 +17,22 @@ export interface Book {
   isLiked?: number;
   likeCount: number;
   categoryName: string;
+}
+
+export interface BooksRequest {
+  queryParams?: {
+    categoryId?: number;
+    page?: number;
+    size?: number;
+    latest?: boolean;
+  };
+}
+
+export interface BooksResponse {
+  data: Book[];
+  pagination: PaginationData;
+}
+
+export interface ToggleBookLikeResponse {
+  isLiked: boolean;
 }
