@@ -13,7 +13,6 @@ const useFetch = <TData>(
   const [data, setData] = useState<TData | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   useEffect(() => {
     (async () => {
       try {
@@ -28,6 +27,7 @@ const useFetch = <TData>(
         setIsLoading(false);
       }
     })();
+    // eslint-disable-next-line
   }, deps);
 
   return { data, error, isLoading };

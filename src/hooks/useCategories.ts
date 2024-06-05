@@ -27,6 +27,7 @@ export const useCategories = () => {
 
     setCategories([{ id: null, name: "전체" }, ...data]);
     changeActive();
+    // eslint-disable-next-line
   }, [data]);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export const useCategories = () => {
       prev.set("page", "1");
       return prev;
     });
+    // eslint-disable-next-line
   }, [changeActive]);
 
   return { categories, isLoading, error };
