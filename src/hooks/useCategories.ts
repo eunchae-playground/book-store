@@ -8,7 +8,7 @@ export const useCategories = () => {
   const { data, isLoading, error } = useFetch(fetchCategories, []);
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const categoryIdSearchParam = searchParams.get("category_id");
 
   const changeActive = useCallback(() => {
@@ -32,10 +32,7 @@ export const useCategories = () => {
 
   useEffect(() => {
     changeActive();
-    setSearchParams((prev) => {
-      prev.set("page", "1");
-      return prev;
-    });
+
     // eslint-disable-next-line
   }, [changeActive]);
 

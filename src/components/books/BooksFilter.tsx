@@ -13,6 +13,7 @@ function BooksFilter() {
     } else {
       searchParams.set("category_id", id.toString());
     }
+    searchParams.set("page", "1");
 
     setSearchParams(searchParams);
   };
