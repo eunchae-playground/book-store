@@ -9,7 +9,7 @@ import Title from "../components/common/Title";
 import useBooks from "../hooks/useBooks";
 
 function BooksPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const categoryId = searchParams.get("category_id")
     ? Number(searchParams.get("category_id"))
     : undefined;
