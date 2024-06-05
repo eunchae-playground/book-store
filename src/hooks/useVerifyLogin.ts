@@ -5,16 +5,14 @@ import { useAuthStore } from "../store/authStore";
 const useVerifyLogin = () => {
   const { storeLogin } = useAuthStore();
 
-  useEffect(
-    function verifyLogin() {
-      authenticate()
-        .then(() => {
-          storeLogin();
-        })
-        .catch(() => {});
-    },
-    [storeLogin]
-  );
+  useEffect(() => {
+    (async () => {
+      try {
+        await authenticate();
+        storeLogin();
+      } catch (error) {}
+    })();
+  }, [storeLogin]);
 };
 
 export default useVerifyLogin;

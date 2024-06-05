@@ -81,8 +81,8 @@ const BookItemStyle = styled.div<BookItemStyleProps>`
   .img-wrapper {
     border-radius: ${({ theme }) => theme.borderRadius.default};
     overflow: hidden;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     img {
       max-width: 100%;
     }
