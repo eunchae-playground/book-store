@@ -4,6 +4,7 @@ import { FaHeart } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { styled } from "styled-components";
 import { toggleBookLike } from "../../api/book.api";
+import useAlert from "../../hooks/useAlert";
 import { Book } from "../../models/book.model";
 import { useAuthStore } from "../../store/authStore";
 import { formatNumber } from "../../utils/formatNumber";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 function BookItem({ book }: Props) {
+  const showAlert = useAlert();
   const [searchParams] = useSearchParams();
   const { isLoggedIn } = useAuthStore();
   const [isLiked, setIsLiked] = useState(Boolean(book.isLiked) || false);
@@ -33,7 +35,7 @@ function BookItem({ book }: Props) {
       }
     } catch (error) {
       if (isAxiosError(error)) {
-        alert(error.message);
+        showAlert(error.message);
       }
     }
   };

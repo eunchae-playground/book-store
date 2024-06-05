@@ -3,23 +3,25 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../../../api/auth.api";
 import logo from "../../../assets/images/logo.png";
+import useAlert from "../../../hooks/useAlert";
 import useCategories from "../../../hooks/useCategories";
 import { useAuthStore } from "../../../store/authStore";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
-  const { categories } = useCategories();
+  const showAlert = useAlert();
   const navigate = useNavigate();
+  const { categories } = useCategories();
   const { isLoggedIn, storeLogout } = useAuthStore();
 
   const handleClickLogoutButton = async () => {
     try {
       await logout();
       storeLogout();
-      alert("로그아웃 되었습니다.");
+      showAlert("로그아웃 되었습니다.");
       navigate(0);
     } catch (error) {
-      alert("로그아웃 도중 오류가 발생했습니다.");
+      showAlert("로그아웃 도중 오류가 발생했습니다.");
     }
   };
 
