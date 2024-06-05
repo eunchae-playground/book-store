@@ -1,6 +1,7 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import Error from "./components/common/Error";
 import Layout from "./components/layout/Layout";
+import BookDetailPage from "./pages/BookDetailPage";
 import BooksPage from "./pages/BooksPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/books",
         element: <BooksPage />,
+      },
+      {
+        path: "/books/:bookId",
+        element: <BookDetailPage />,
       },
     ],
   },

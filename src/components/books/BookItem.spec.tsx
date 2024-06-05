@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import { BookStoreThemeProvider } from "../../context/themeContext";
 import { Book } from "../../models/book.model";
-import { formatNumber } from "../../utils/formatNumber";
+import { formatNumber } from "../../utils/format";
 import BookItem from "./BookItem";
 
 const book: Book = {

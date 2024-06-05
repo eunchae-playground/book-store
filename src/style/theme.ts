@@ -63,8 +63,8 @@ const baseTheme: Omit<Theme, "name" | "color"> = {
       padding: "0.5rem 1rem",
     },
     small: {
-      fontSize: "0.75rem",
-      padding: "0.25rem 0.5rem",
+      fontSize: "0.8rem",
+      padding: "0.4rem 0.65rem",
     },
   },
   buttonScheme: {

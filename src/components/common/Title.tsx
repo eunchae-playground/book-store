@@ -1,16 +1,16 @@
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import { styled } from "styled-components";
 import { ColorKey, HeadingSize } from "../../style/theme";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLHeadingElement> {
   children: ReactNode;
   size: HeadingSize;
   color?: ColorKey;
 }
 
-function Title({ children, size, color }: Props) {
+function Title({ children, size, color, ...props }: Props) {
   return (
-    <TitleStyle size={size} color={color}>
+    <TitleStyle {...props} size={size} color={color}>
       {children}
     </TitleStyle>
   );

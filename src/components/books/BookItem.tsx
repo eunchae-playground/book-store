@@ -1,48 +1,26 @@
-import { isAxiosError } from "axios";
-import { useState } from "react";
-import { FaHeart } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { styled } from "styled-components";
-import { toggleBookLike } from "../../api/book.api";
-import useAlert from "../../hooks/useAlert";
 import { Book } from "../../models/book.model";
-import { useAuthStore } from "../../store/authStore";
-import { formatNumber } from "../../utils/formatNumber";
-import Button from "../common/Button";
+import { formatNumber } from "../../utils/format";
+import BookLikeButton from "./BookLikeButton";
 
 interface Props {
   book: Book;
 }
 
 function BookItem({ book }: Props) {
-  const showAlert = useAlert();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { isLoggedIn } = useAuthStore();
-  const [isLiked, setIsLiked] = useState(Boolean(book.isLiked) || false);
-  const [likeCount, setLikeCount] = useState(book.likeCount);
 
-  const handleClickLikeButton = async () => {
-    if (!isLoggedIn) return;
-    try {
-      const { isLiked: updatedIsLiked } = await toggleBookLike({ id: book.id });
-
-      setIsLiked(updatedIsLiked);
-
-      if (updatedIsLiked) {
-        setLikeCount(likeCount + 1);
-      } else {
-        setLikeCount(likeCount - 1);
-      }
-    } catch (error) {
-      if (isAxiosError(error)) {
-        showAlert(error.message);
-      }
-    }
+  const handleClickBookItem = () => {
+    navigate(`/books/${book.id}`);
   };
+
   return (
     <BookItemStyle
-      $isLiked={isLiked}
+      $isLiked={book.isLiked}
       $view={searchParams.get("view") ?? "grid"}
+      onClick={handleClickBookItem}
     >
       <div className="img-wrapper">
         <img src={book.image} alt="book" />
@@ -52,23 +30,19 @@ function BookItem({ book }: Props) {
         <p className="summary">{book.summary}</p>
         <p className="author">{book.author}</p>
         <p className="price">{formatNumber(book.price)}원</p>
-        <Button
-          size="medium"
-          scheme="normal"
-          className="like-button"
-          onClick={handleClickLikeButton}
-          disabled={!isLoggedIn}
-        >
-          <FaHeart />
-          <span>{likeCount}</span>
-        </Button>
+        <BookLikeButton
+          size="small"
+          id={book.id}
+          likeCount={book.likeCount}
+          isLiked={book.isLiked}
+        />
       </div>
     </BookItemStyle>
   );
 }
 
 interface BookItemStyleProps {
-  $isLiked: boolean;
+  $isLiked: Props["book"]["isLiked"];
   $view: string;
 }
 
@@ -79,6 +53,7 @@ const BookItemStyle = styled.div<BookItemStyleProps>`
   gap: 10px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   padding: 20px;
+  cursor: pointer;
 
   .img-wrapper {
     border-radius: ${({ theme }) => theme.borderRadius.default};

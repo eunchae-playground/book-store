@@ -1,4 +1,4 @@
-import { isAxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 type FetcherCallback<TData> = () => Promise<TData>;
@@ -11,7 +11,7 @@ const useFetch = <TData>(
   deps: React.DependencyList
 ) => {
   const [data, setData] = useState<TData | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     (async () => {

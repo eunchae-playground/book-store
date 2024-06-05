@@ -33,6 +33,12 @@ export interface BooksResponse {
   pagination: PaginationData;
 }
 
+export interface BookRequest {
+  id: number;
+}
+
+export type BookResponse = Book;
+
 export interface ToggleBookLikeResponse {
   isLiked: boolean;
 }

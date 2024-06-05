@@ -1,4 +1,6 @@
 import {
+  BookRequest,
+  BookResponse,
   BooksRequest,
   BooksResponse,
   ToggleBookLikeResponse,
@@ -18,6 +20,12 @@ export const toggleBookLike = async ({ id }: { id: number }) => {
     `/books/${id}/likes`,
     { id }
   );
+
+  return response.data;
+};
+
+export const fetchBook = async ({ id }: BookRequest) => {
+  const response = await axiosInstance.get<BookResponse>(`/books/${id}`);
 
   return response.data;
 };
