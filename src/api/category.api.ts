@@ -1,8 +1,8 @@
 import { CategoriesResponse } from "../models/category.model";
-import { httpClient } from "./http";
+import axiosInstance from "./axios/axiosInstance";
 
 export const fetchCategories = async () => {
-  const response = await httpClient.get<CategoriesResponse>(
+  const response = await axiosInstance.get<CategoriesResponse>(
     "/books/categories"
   );
   return response.data;

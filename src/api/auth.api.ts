@@ -4,28 +4,29 @@ import {
   ResetPasswordRequest,
   SignupRequest,
 } from "../models/auth.model";
-import { authenticationHttpClient, httpClient } from "./http";
+import authenticationAxiosInstance from "./axios/authenticationAxiosInstance";
+import axiosInstance from "./axios/axiosInstance";
 
 export const authenticate = async () => {
-  const response = await authenticationHttpClient.post("/authenticate");
+  const response = await authenticationAxiosInstance.post("/authenticate");
 
   return response.data;
 };
 
 export const signup = async (req: SignupRequest) => {
-  const response = await httpClient.post("/join", req);
+  const response = await axiosInstance.post("/join", req);
 
   return response.data;
 };
 
 export const login = async (req: LoginRequest) => {
-  const response = await httpClient.post("/login", req);
+  const response = await axiosInstance.post("/login", req);
 
   return response.data;
 };
 
 export const logout = async () => {
-  const response = await httpClient.post("/logout");
+  const response = await axiosInstance.post("/logout");
 
   return response.data;
 };
@@ -33,7 +34,7 @@ export const logout = async () => {
 export const resetPasswordAuthenticate = async (
   req: ResetPasswordAuthenticateRequest
 ) => {
-  const response = await httpClient.post(
+  const response = await axiosInstance.post(
     "/users/reset-password/authenticate",
     req
   );
@@ -42,7 +43,7 @@ export const resetPasswordAuthenticate = async (
 };
 
 export const resetPassword = async (req: ResetPasswordRequest) => {
-  const response = await httpClient.put("/users/reset-password", req);
+  const response = await axiosInstance.put("/users/reset-password", req);
 
   return response.data;
 };

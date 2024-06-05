@@ -3,10 +3,10 @@ import {
   BooksResponse,
   ToggleBookLikeResponse,
 } from "../models/book.model";
-import { httpClient } from "./http";
+import axiosInstance from "./axios/axiosInstance";
 
 export const fetchBooks = async (req?: BooksRequest) => {
-  const response = await httpClient.get<BooksResponse>("/books", {
+  const response = await axiosInstance.get<BooksResponse>("/books", {
     params: req?.queryParams,
   });
 
@@ -14,7 +14,7 @@ export const fetchBooks = async (req?: BooksRequest) => {
 };
 
 export const toggleBookLike = async ({ id }: { id: number }) => {
-  const response = await httpClient.post<ToggleBookLikeResponse>(
+  const response = await axiosInstance.post<ToggleBookLikeResponse>(
     `/books/${id}/likes`,
     { id }
   );
