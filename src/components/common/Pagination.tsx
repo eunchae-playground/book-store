@@ -15,10 +15,8 @@ function Pagination({ pagination }: Props) {
   const pages = Math.ceil(totalElements / size);
 
   const handleClickPageButton = (page: number) => {
-    const newSearchParams = new URLSearchParams(searchParam);
-
-    newSearchParams.set("page", page.toString());
-    setSearchParams(newSearchParams);
+    searchParam.set("page", page.toString());
+    setSearchParams(searchParam);
   };
   return (
     <PaginationStyle>

@@ -18,9 +18,8 @@ function BooksViewSwitcher() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClickSwitch = (value: string) => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("view", value);
-    setSearchParams(newSearchParams);
+    searchParams.set("view", value);
+    setSearchParams(searchParams);
   };
 
   return (

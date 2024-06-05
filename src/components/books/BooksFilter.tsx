@@ -8,27 +8,23 @@ function BooksFilter() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClickCategoryButton = (id: number | null) => {
-    const newSearchParams = new URLSearchParams(searchParams);
-
     if (id === null) {
-      newSearchParams.delete("category_id");
+      searchParams.delete("category_id");
     } else {
-      newSearchParams.set("category_id", id.toString());
+      searchParams.set("category_id", id.toString());
     }
 
-    setSearchParams(newSearchParams);
+    setSearchParams(searchParams);
   };
 
   const handleClickLatestButton = () => {
-    const newSearchParams = new URLSearchParams(searchParams);
-
-    if (newSearchParams.has("latest")) {
-      newSearchParams.delete("latest");
+    if (searchParams.has("latest")) {
+      searchParams.delete("latest");
     } else {
-      newSearchParams.set("latest", "true");
+      searchParams.set("latest", "true");
     }
 
-    setSearchParams(newSearchParams);
+    setSearchParams(searchParams);
   };
 
   return (
