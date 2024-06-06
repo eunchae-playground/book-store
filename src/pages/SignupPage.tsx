@@ -7,7 +7,7 @@ import { signup } from "../api/auth.api";
 import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
-import useAlert from "../hooks/useAlert";
+import useModal from "../hooks/useModal";
 import { SignupRequest } from "../models/auth.model";
 
 function SignupPage() {
@@ -16,7 +16,7 @@ function SignupPage() {
   );
 
   const navigate = useNavigate();
-  const showAlert = useAlert();
+  const { showToast } = useModal();
 
   const {
     register,
@@ -27,7 +27,7 @@ function SignupPage() {
   const onSubmit = async (data: SignupRequest) => {
     try {
       await signup(data);
-      showAlert("회원가입이 완료되었습니다.");
+      showToast("회원가입이 완료되었습니다.");
       navigate("/login");
     } catch (error) {
       if (isAxiosError(error)) {

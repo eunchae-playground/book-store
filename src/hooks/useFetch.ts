@@ -1,6 +1,6 @@
 import { AxiosError, isAxiosError } from "axios";
 import { useEffect, useState } from "react";
-
+import { v4 as uuidv4 } from "uuid";
 type FetcherCallback<TData> = () => Promise<TData>;
 
 /**
@@ -13,6 +13,12 @@ const useFetch = <TData>(
   const [data, setData] = useState<TData | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [refetchTrigger, setRefetchTrigger] = useState<string | null>(null);
+
+  const refetch = () => {
+    setRefetchTrigger(uuidv4());
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -28,9 +34,9 @@ const useFetch = <TData>(
       }
     })();
     // eslint-disable-next-line
-  }, deps);
+  }, [...deps, refetchTrigger]);
 
-  return { data, error, isLoading };
+  return { data, error, isLoading, refetch };
 };
 
 export default useFetch;

@@ -6,7 +6,7 @@ import { resetPassword, resetPasswordAuthenticate } from "../api/auth.api";
 import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
-import useAlert from "../hooks/useAlert";
+import useModal from "../hooks/useModal";
 import { SignupPageStyle } from "./SignupPage";
 
 interface ResetPasswordForm {
@@ -16,7 +16,7 @@ interface ResetPasswordForm {
 }
 function ResetPasswordPage() {
   const navigate = useNavigate();
-  const showAlert = useAlert();
+  const { showToast } = useModal();
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
     null
   );
@@ -55,7 +55,7 @@ function ResetPasswordPage() {
 
     try {
       await resetPassword({ email, password });
-      showAlert("비밀번호가 초기화되었습니다.");
+      showToast("비밀번호가 초기화되었습니다.");
       navigate("/login");
     } catch (error) {
       if (isAxiosError(error)) {

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { styled } from "styled-components";
 import { toggleBookLike } from "../../api/book.api";
-import useAlert from "../../hooks/useAlert";
+import useModal from "../../hooks/useModal";
 import { Book } from "../../models/book.model";
 import { useAuthStore } from "../../store/authStore";
 import { ButtonSize } from "../../style/theme";
@@ -15,7 +15,7 @@ type Props = Pick<Book, "id" | "likeCount" | "isLiked"> & {
 
 function BookLikeButton(props: Props) {
   const { isLogin } = useAuthStore();
-  const showAlert = useAlert();
+  const { showAlert } = useModal();
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [isLiked, setIsLiked] = useState(!!props.isLiked);
 

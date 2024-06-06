@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { addCart } from "../../api/cart.api";
-import useAlert from "../../hooks/useAlert";
+import useModal from "../../hooks/useModal";
 import { useAuthStore } from "../../store/authStore";
 import Button from "../common/Button";
 import InputText from "../common/InputText";
@@ -15,7 +15,7 @@ interface Props {
 function AddCartSection({ bookId }: Props) {
   const [amount, setAmount] = useState(1);
   const { isLogin } = useAuthStore();
-  const showAlert = useAlert();
+  const { showToast, showAlert } = useModal();
   const navigate = useNavigate();
 
   const handleClickAddCart = async () => {
@@ -31,7 +31,7 @@ function AddCartSection({ bookId }: Props) {
 
     try {
       await addCart({ bookId, amount });
-      showAlert("장바구니에 추가되었습니다.");
+      showToast("장바구니에 추가되었습니다.");
     } catch (error) {
       if (isAxiosError(error)) {
         showAlert(error.response!.data.message);

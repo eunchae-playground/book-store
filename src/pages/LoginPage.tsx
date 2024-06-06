@@ -6,7 +6,7 @@ import { login } from "../api/auth.api";
 import Button from "../components/common/Button";
 import InputText from "../components/common/InputText";
 import Title from "../components/common/Title";
-import useAlert from "../hooks/useAlert";
+import useModal from "../hooks/useModal";
 import { LoginRequest } from "../models/auth.model";
 import { useAuthStore } from "../store/authStore";
 import { SignupPageStyle } from "./SignupPage";
@@ -17,8 +17,7 @@ function LoginPage() {
   );
 
   const navigate = useNavigate();
-  const showAlert = useAlert();
-
+  const { showToast } = useModal();
   const { storeLogin } = useAuthStore();
 
   const {
@@ -31,7 +30,7 @@ function LoginPage() {
     try {
       await login(data);
       storeLogin();
-      showAlert("로그인이 완료되었습니다.");
+      showToast("로그인이 완료되었습니다.");
       navigate("/");
     } catch (error) {
       if (isAxiosError(error)) {
