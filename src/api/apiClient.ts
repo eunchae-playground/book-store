@@ -1,9 +1,16 @@
-import axios from "axios";
-import config from "./config";
+import axios, { AxiosRequestConfig } from "axios";
 
-const axiosInstance = axios.create(config);
+const axiosConfig: AxiosRequestConfig = {
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+};
 
-axiosInstance.interceptors.response.use(
+const apiClient = axios.create(axiosConfig);
+
+apiClient.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -21,4 +28,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+export default apiClient;

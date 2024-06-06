@@ -1,8 +1,8 @@
 import { AddCartRequest } from "../models/cart.model";
-import axiosInstance from "./axios/axiosInstance";
+import apiClient from "./apiClient";
 
 export const addCart = async (req: AddCartRequest) => {
-  const response = await axiosInstance.post("/carts", req);
+  const response = await apiClient.post("/carts", req);
 
   return response.data;
-}
+};
