@@ -1,14 +1,16 @@
 import {
+  AuthenticateResponse,
   LoginRequest,
   ResetPasswordAuthenticateRequest,
   ResetPasswordRequest,
   SignupRequest,
 } from "../models/auth.model";
-import authenticationAxiosInstance from "./axios/authenticationAxiosInstance";
 import axiosInstance from "./axios/axiosInstance";
 
 export const authenticate = async () => {
-  const response = await authenticationAxiosInstance.post("/authenticate");
+  const response = await axiosInstance.post<AuthenticateResponse>(
+    "/authenticate"
+  );
 
   return response.data;
 };

@@ -1,3 +1,7 @@
+export interface AuthenticateResponse {
+  isLogin: boolean;
+}
+
 export interface SignupRequest {
   email: string;
   password: string;

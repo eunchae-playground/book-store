@@ -14,7 +14,7 @@ type Props = Pick<Book, "id" | "likeCount" | "isLiked"> & {
 };
 
 function BookLikeButton(props: Props) {
-  const { isLoggedIn } = useAuthStore();
+  const { isLogin } = useAuthStore();
   const showAlert = useAlert();
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [isLiked, setIsLiked] = useState(!!props.isLiked);
@@ -24,7 +24,7 @@ function BookLikeButton(props: Props) {
   ) => {
     event.stopPropagation();
 
-    if (!isLoggedIn) return;
+    if (!isLogin) return;
 
     try {
       const { isLiked: updatedIsLiked } = await toggleBookLike({
@@ -50,7 +50,7 @@ function BookLikeButton(props: Props) {
       <Button
         size={props.size}
         scheme="normal"
-        disabled={!isLoggedIn}
+        disabled={!isLogin}
         onClick={(event) => handleClickLikeButton(event)}
       >
         <FaHeart />

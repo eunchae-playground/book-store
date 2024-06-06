@@ -1,19 +1,19 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 interface StoreState {
-  isLoggedIn: boolean;
+  isLogin: boolean;
   storeLogin: () => void;
   storeLogout: () => void;
 }
 
 export const useAuthStore = create(
   devtools<StoreState>((set) => ({
-    isLoggedIn: false,
+    isLogin: false,
     storeLogin: () => {
-      set({ isLoggedIn: true });
+      set({ isLogin: true });
     },
     storeLogout: () => {
-      set({ isLoggedIn: false });
+      set({ isLogin: false });
     },
   }))
 );

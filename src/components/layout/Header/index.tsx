@@ -12,7 +12,7 @@ export default function Header() {
   const showAlert = useAlert();
   const navigate = useNavigate();
   const { categories } = useCategories();
-  const { isLoggedIn, storeLogout } = useAuthStore();
+  const { isLogin, storeLogout } = useAuthStore();
 
   const handleClickLogoutButton = async () => {
     try {
@@ -51,7 +51,7 @@ export default function Header() {
 
       <nav className="auth">
         <ul>
-          {isLoggedIn ? (
+          {isLogin ? (
             <>
               <li>
                 <Link to="carts">장바구니</Link>

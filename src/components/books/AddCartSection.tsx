@@ -14,12 +14,12 @@ interface Props {
 
 function AddCartSection({ bookId }: Props) {
   const [amount, setAmount] = useState(1);
-  const { isLoggedIn } = useAuthStore();
+  const { isLogin } = useAuthStore();
   const showAlert = useAlert();
   const navigate = useNavigate();
 
   const handleClickAddCart = async () => {
-    if (!isLoggedIn) {
+    if (!isLogin) {
       showAlert("로그인이 필요합니다.");
       navigate("/login");
     }

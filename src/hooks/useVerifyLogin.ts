@@ -8,8 +8,10 @@ const useVerifyLogin = () => {
   useEffect(() => {
     (async () => {
       try {
-        await authenticate();
-        storeLogin();
+        const { isLogin } = await authenticate();
+        if (isLogin) {
+          storeLogin();
+        }
       } catch (error) {}
     })();
   }, [storeLogin]);
