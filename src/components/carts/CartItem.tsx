@@ -57,9 +57,11 @@ function CartItem({ cart, refetchCarts }: Props) {
         onChange={handleCheckItem}
       />
 
+      <img src={cart.image} alt="cart" />
+
       <div className="content">
         <h2 className="title">{cart.title}</h2>
-        <p className="summary">{cart.detail}</p>
+        <p className="detail">{cart.detail}</p>
         <p className="price">{formatNumber(cart.price)}원</p>
         <p className="author">{cart.amount}권</p>
       </div>
@@ -81,6 +83,7 @@ interface CartItemStyleProps {
 
 const CartItemStyle = styled.label<CartItemStyleProps>`
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 20px;
   padding: 12px;
@@ -89,13 +92,32 @@ const CartItemStyle = styled.label<CartItemStyleProps>`
   border-radius: ${({ theme }) => theme.borderRadius.default};
   cursor: pointer;
 
+  img {
+    width: 180px;
+    height: 180px;
+    border-radius: ${({ theme }) => theme.borderRadius.default};
+  }
+
   .content {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     gap: 10px;
-    flex-grow: 1;
+    width: 340px;
     * {
       margin: 0;
+    }
+    .title {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .detail {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
     }
   }
 `;
