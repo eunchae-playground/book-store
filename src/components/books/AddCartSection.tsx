@@ -22,6 +22,7 @@ function AddCartSection({ bookId }: Props) {
     if (!isLogin) {
       showAlert("로그인이 필요합니다.");
       navigate("/login");
+      return;
     }
 
     if (!amount) {
