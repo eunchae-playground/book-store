@@ -20,11 +20,15 @@ const useFetch = <TData>(
   };
 
   useEffect(() => {
+    let ignore = false;
+
     (async () => {
       try {
         setIsLoading(true);
         const data = await fetcherCallback();
-        setData(data);
+        if (!ignore) {
+          setData(data);
+        }
       } catch (error) {
         if (isAxiosError(error)) {
           setError(error);
@@ -33,6 +37,11 @@ const useFetch = <TData>(
         setIsLoading(false);
       }
     })();
+
+    return () => {
+      ignore = true;
+    };
+
     // eslint-disable-next-line
   }, [...deps, refetchTrigger]);
 
