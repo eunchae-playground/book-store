@@ -1,13 +1,23 @@
 import { IoCartSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import CartsList from "../components/carts/CartsList";
-import CartsToOrderSection from "../components/carts/CartsToOrderSection";
+import CartsOrderSummarySection from "../components/carts/CartsOrderSummarySection";
+import Button from "../components/common/Button";
 import Empty from "../components/common/Empty";
 import Title from "../components/common/Title";
 import useCarts from "../hooks/useCarts";
+import { useOrderStore } from "../store/OrderStore";
 
 function CartsPage() {
+  const navigate = useNavigate();
   const { carts, isEmpty, isLoading, refetch } = useCarts();
+  const { isEmptyCheckedCarts } = useOrderStore();
+
+  const handleClickOrderButton = () => {
+    if (isEmptyCheckedCarts()) return;
+    navigate("/orders/new");
+  };
 
   return (
     <CartsPageStyle>
@@ -16,7 +26,17 @@ function CartsPage() {
       {carts && !isEmpty && (
         <div className="carts-container">
           <CartsList carts={carts} refetchCarts={refetch} />
-          <CartsToOrderSection />
+          <div className="summary-and-button">
+            <CartsOrderSummarySection />
+            <Button
+              disabled={isEmptyCheckedCarts()}
+              size="medium"
+              scheme="primary"
+              onClick={handleClickOrderButton}
+            >
+              주문하기
+            </Button>
+          </div>
         </div>
       )}
       {carts && isEmpty && (
@@ -35,6 +55,14 @@ const CartsPageStyle = styled.div`
   .carts-container {
     display: flex;
     gap: 24px;
+
+    .summary-and-button {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 240px;
+      min-height: 260px;
+    }
   }
 `;
 

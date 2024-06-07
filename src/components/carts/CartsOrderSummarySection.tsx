@@ -1,12 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { useOrderStore } from "../../store/OrderStore";
 import { formatNumber } from "../../utils/format";
-import Button from "../common/Button";
 import Title from "../common/Title";
 
-function CartsToOrderSection() {
-  const navigate = useNavigate();
+function CartsOrderSummarySection() {
   const { checkedCarts } = useOrderStore();
   const [totalAmount, totalPrice] = Object.values(checkedCarts).reduce(
     (totalAmountAndTotalPrice, { amount, price }) => {
@@ -17,15 +14,9 @@ function CartsToOrderSection() {
     },
     [0, 0]
   );
-  const hasCart = totalAmount > 0;
-
-  const handleClickOrderButton = () => {
-    if (!hasCart) return;
-    navigate("/orders/new");
-  };
 
   return (
-    <CartsToOrderSectionStyle>
+    <CartsOrderSummarySectionStyle>
       <Title size="medium" color="text">
         주문 요약
       </Title>
@@ -35,24 +26,12 @@ function CartsToOrderSection() {
         <dt>총 금액</dt>
         <dd>{formatNumber(totalPrice)}원</dd>
       </dl>
-      <Button
-        disabled={!hasCart}
-        size="medium"
-        scheme="primary"
-        onClick={handleClickOrderButton}
-      >
-        주문하기
-      </Button>
-    </CartsToOrderSectionStyle>
+    </CartsOrderSummarySectionStyle>
   );
 }
 
-const CartsToOrderSectionStyle = styled.div`
-  position: relative;
-  width: 240px;
-  min-height: 260px;
+const CartsOrderSummarySectionStyle = styled.div`
   padding: 12px;
-
   dl {
     display: grid;
     grid-template-columns: 70px 1fr;
@@ -63,13 +42,6 @@ const CartsToOrderSectionStyle = styled.div`
       text-align: end;
     }
   }
-
-  button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 12px;
-  }
 `;
 
-export default CartsToOrderSection;
+export default CartsOrderSummarySection;
