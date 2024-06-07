@@ -17,7 +17,7 @@ function CartItem({ cart, refetchCarts }: Props) {
   const cartStringId = `cart-${cart.id}`;
 
   const { checkedCarts } = useOrderStore();
-  const [isChecked, setIsChecked] = useState(cart.id in checkedCarts);
+  const [isChecked, setIsChecked] = useState(cart.bookId in checkedCarts);
   const { showToast, showAlert, showConfirm } = useModal();
   const { addCheckedCart, deleteCheckedCart } = useOrderStore();
 

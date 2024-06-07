@@ -1,5 +1,6 @@
 export interface Cart {
   id: number;
+  bookId: number;
   amount: number;
   title: string;
   image: string;

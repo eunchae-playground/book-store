@@ -7,6 +7,7 @@ import CartsPage from "../pages/CartsPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import OrderPage from "../pages/OrderPage";
+import OrdersPage from "../pages/OrdersPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignupPage from "../pages/SignupPage";
 import ProtectedRoute from "./helpers/ProtectedRoute";
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/carts",
         element: <ProtectedRoute children={<CartsPage />} role="loginUser" />,
+      },
+      {
+        path: "/orders",
+        element: <ProtectedRoute children={<OrdersPage />} role="loginUser" />,
       },
       {
         path: "/orders/new",
