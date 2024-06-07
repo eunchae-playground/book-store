@@ -1,12 +1,12 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { CheckedCarts } from "../models/cart.model";
+import { useOrderStore } from "../store/OrderStore";
+import isEmptyObject from "../utils/isEmptyObject";
 
 function OrderPage() {
-  const location = useLocation();
-  const checkedCarts = location.state as CheckedCarts;
+  const { checkedCarts } = useOrderStore();
 
-  if (!checkedCarts) {
+  if (isEmptyObject(checkedCarts)) {
     return <Navigate to="/" replace />;
   }
 

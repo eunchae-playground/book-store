@@ -1,16 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { CheckedCarts } from "../../models/cart.model";
+import { useOrderStore } from "../../store/OrderStore";
 import { formatNumber } from "../../utils/format";
 import Button from "../common/Button";
 import Title from "../common/Title";
 
-interface Props {
-  checkedCarts: CheckedCarts;
-}
-
-function CartsToOrderSection({ checkedCarts }: Props) {
+function CartsToOrderSection() {
   const navigate = useNavigate();
+  const { checkedCarts } = useOrderStore();
   const [totalAmount, totalPrice] = Object.values(checkedCarts).reduce(
     (totalAmountAndTotalPrice, { amount, price }) => {
       return [
@@ -24,7 +21,7 @@ function CartsToOrderSection({ checkedCarts }: Props) {
 
   const handleClickOrderButton = () => {
     if (!hasCart) return;
-    navigate("/orders/new", { state: checkedCarts });
+    navigate("/orders/new");
   };
 
   return (

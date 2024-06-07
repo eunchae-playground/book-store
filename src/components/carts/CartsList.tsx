@@ -1,19 +1,17 @@
 import { styled } from "styled-components";
-import { Cart, CheckedCarts } from "../../models/cart.model";
+import { Cart } from "../../models/cart.model";
 import CartItem from "./CartItem";
-import { Dispatch, SetStateAction } from "react";
 
 interface Props {
   carts: Cart[];
   refetchCarts: () => void;
-  setCheckedCarts : Dispatch<SetStateAction<CheckedCarts>>
 }
 
-function CartsList({ carts, refetchCarts, setCheckedCarts }: Props) {
+function CartsList({ carts, refetchCarts }: Props) {
   return (
     <CartsListStyle>
       {carts.map((cart) => (
-        <CartItem key={cart.id} cart={cart} refetchCarts={refetchCarts} setCheckedCarts={setCheckedCarts} />
+        <CartItem key={cart.id} cart={cart} refetchCarts={refetchCarts} />
       ))}
     </CartsListStyle>
   );

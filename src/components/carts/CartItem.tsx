@@ -1,47 +1,33 @@
 import { isAxiosError } from "axios";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { deleteCart } from "../../api/cart.api";
 import useModal from "../../hooks/useModal";
-import { Cart, CheckedCarts } from "../../models/cart.model";
+import { Cart } from "../../models/cart.model";
+import { useOrderStore } from "../../store/OrderStore";
 import { formatNumber } from "../../utils/format";
 import Button from "../common/Button";
 
 interface Props {
   cart: Cart;
   refetchCarts: () => void;
-  setCheckedCarts: Dispatch<SetStateAction<CheckedCarts>>;
 }
 
-function CartItem({ cart, refetchCarts, setCheckedCarts }: Props) {
+function CartItem({ cart, refetchCarts }: Props) {
   const cartStringId = `cart-${cart.id}`;
 
-  const [isChecked, setIsChecked] = useState(false);
+  const { checkedCarts } = useOrderStore();
+  const [isChecked, setIsChecked] = useState(cart.id in checkedCarts);
   const { showToast, showAlert, showConfirm } = useModal();
-
-  const addToCheckedCarts = () => {
-    setCheckedCarts((prevCheckedCarts) => {
-      const newCheckedCarts = { ...prevCheckedCarts };
-      newCheckedCarts[cart.id] = cart;
-      return newCheckedCarts;
-    });
-  };
-
-  const deleteFromCheckedCarts = () => {
-    setCheckedCarts((prevCheckedCarts) => {
-      const newCheckedCarts = { ...prevCheckedCarts };
-      delete newCheckedCarts[cart.id];
-      return newCheckedCarts;
-    });
-  };
+  const { addCheckedCart, deleteCheckedCart } = useOrderStore();
 
   const handleCheckItem = () => {
     setIsChecked(!isChecked);
     // 리액트는 state 변경을 배치로 처리하므로 현재 isChecked는 바뀌기전 상태를 가진다.
     if (isChecked) {
-      deleteFromCheckedCarts();
+      deleteCheckedCart(cart);
     } else {
-      addToCheckedCarts();
+      addCheckedCart(cart);
     }
   };
 
@@ -53,7 +39,7 @@ function CartItem({ cart, refetchCarts, setCheckedCarts }: Props) {
     try {
       await deleteCart({ id: cart.id });
       showToast("장바구니에서 삭제되었습니다.");
-      deleteFromCheckedCarts();
+      deleteCheckedCart(cart);
       refetchCarts();
     } catch (error) {
       if (isAxiosError(error)) {

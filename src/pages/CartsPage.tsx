@@ -5,12 +5,9 @@ import CartsToOrderSection from "../components/carts/CartsToOrderSection";
 import Empty from "../components/common/Empty";
 import Title from "../components/common/Title";
 import useCarts from "../hooks/useCarts";
-import { CheckedCarts } from "../models/cart.model";
-import { useState } from "react";
 
 function CartsPage() {
   const { carts, isEmpty, isLoading, refetch } = useCarts();
-  const [checkedCarts, setCheckedCarts] = useState<CheckedCarts>({})
 
   return (
     <CartsPageStyle>
@@ -18,8 +15,8 @@ function CartsPage() {
       {!carts && isLoading && <span>로딩중...</span>}
       {carts && !isEmpty && (
         <div className="carts-container">
-          <CartsList carts={carts} refetchCarts={refetch} setCheckedCarts={setCheckedCarts} />
-          <CartsToOrderSection checkedCarts={checkedCarts} />
+          <CartsList carts={carts} refetchCarts={refetch} />
+          <CartsToOrderSection />
         </div>
       )}
       {carts && isEmpty && (
