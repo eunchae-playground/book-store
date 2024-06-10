@@ -10,7 +10,7 @@ export interface OrderBook {
   bookAmount: number;
 }
 
-export interface OrderRequest {
+export interface CreateOrderRequest {
   deliveryInfo: DeliveryInfo;
   orderBooks: OrderBook[];
 }

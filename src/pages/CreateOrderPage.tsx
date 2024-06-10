@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { createOrders } from "../api/order.api";
+import { createOrder } from "../api/order.api";
 import CartsOrderSummarySection from "../components/carts/CartsOrderSummarySection";
 import Button from "../components/common/Button";
 import Title from "../components/common/Title";
@@ -67,7 +67,7 @@ function CreateOrderPage() {
       const orderBooks: OrderBook[] = checkedCartsArray.map(
         ({ bookId, amount: bookAmount }) => ({ bookId, bookAmount })
       );
-      await createOrders({ deliveryInfo, orderBooks });
+      await createOrder({ deliveryInfo, orderBooks });
       isSubmitted.current = true;
       initializeCheckedCarts();
       showToast("주문이 완료되었습니다.");

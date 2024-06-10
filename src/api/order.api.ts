@@ -1,7 +1,7 @@
-import { OrderRequest } from "../models/order.model";
+import { CreateOrderRequest } from "../models/order.model";
 import apiClient from "./apiClient";
 
-export const createOrders = async (req: OrderRequest) => {
+export const createOrder = async (req: CreateOrderRequest) => {
   const response = await apiClient.post("/orders", req);
 
   return response.data;
