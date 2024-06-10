@@ -14,3 +14,15 @@ export interface CreateOrderRequest {
   deliveryInfo: DeliveryInfo;
   orderBooks: OrderBook[];
 }
+
+export interface Order {
+  id: number;
+  address: string;
+  receiver: string;
+  bookTitle: string;
+  bookPrice: number;
+  bookAmount: number;
+  orderedAt: string;
+}
+
+export type OrdersResponse = Order[];
