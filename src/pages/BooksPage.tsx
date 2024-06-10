@@ -6,6 +6,7 @@ import BooksList from "../components/books/BooksList";
 import BooksViewSwitcher from "../components/books/BooksViewSwitcher";
 import Empty from "../components/common/Empty";
 import Pagination from "../components/common/Pagination";
+import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
 import useBooks from "../hooks/useBooks";
 
@@ -32,7 +33,7 @@ function BooksPage() {
           <BooksViewSwitcher />
         </div>
 
-        {!books && isLoading && <span>로딩중...</span>}
+        {!books && isLoading && <SpinnerLoader />}
         {books && !isEmpty && (
           <>
             <BooksList books={books!} />

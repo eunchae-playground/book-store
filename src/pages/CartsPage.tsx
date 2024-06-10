@@ -5,6 +5,7 @@ import CartsList from "../components/carts/CartsList";
 import CartsOrderSummarySection from "../components/carts/CartsOrderSummarySection";
 import Button from "../components/common/Button";
 import Empty from "../components/common/Empty";
+import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
 import useCarts from "../hooks/useCarts";
 import { useOrderStore } from "../store/OrderStore";
@@ -22,7 +23,7 @@ function CartsPage() {
   return (
     <CartsPageStyle>
       <Title size="large">장바구니</Title>
-      {!carts && isLoading && <span>로딩중...</span>}
+      {!carts && isLoading && <SpinnerLoader />}
       {carts && !isEmpty && (
         <div className="carts-container">
           <CartsList carts={carts} refetchCarts={refetch} />

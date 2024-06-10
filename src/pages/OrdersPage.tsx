@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import Button from "../components/common/Button";
 import Empty from "../components/common/Empty";
+import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
 import OrderDetailModal from "../components/orders/OrderDetailModal";
 import useOrders from "../hooks/useOrders";
@@ -40,7 +41,7 @@ function OrdersPage() {
     <OrdersPageStyle>
       <Title size="large">주문 내역</Title>
 
-      {!orders && isLoading && <span>로딩중...</span>}
+      {!orders && isLoading && <SpinnerLoader />}
 
       {orders && !isEmpty && (
         <>
