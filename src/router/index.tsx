@@ -4,9 +4,9 @@ import Layout from "../components/layout/Layout";
 import BookDetailPage from "../pages/BookDetailPage";
 import BooksPage from "../pages/BooksPage";
 import CartsPage from "../pages/CartsPage";
+import CreateOrderPage from "../pages/CreateOrderPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
-import OrderPage from "../pages/OrderPage";
 import OrdersPage from "../pages/OrdersPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignupPage from "../pages/SignupPage";
@@ -64,7 +64,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/orders/new",
-        element: <ProtectedRoute children={<OrderPage />} role="loginUser" />,
+        element: (
+          <ProtectedRoute children={<CreateOrderPage />} role="loginUser" />
+        ),
       },
     ],
   },

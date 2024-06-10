@@ -13,7 +13,7 @@ import useModal from "../hooks/useModal";
 import { DeliveryInfo, OrderBook } from "../models/order.model";
 import { useOrderStore } from "../store/OrderStore";
 
-function OrderPage() {
+function CreateOrderPage() {
   const isSubmitted = useRef(false);
 
   const {
@@ -81,7 +81,7 @@ function OrderPage() {
   };
 
   return (
-    <OrderPageStyle>
+    <CreateOrderPageStyle>
       <Title size="large">주문서 작성</Title>
 
       <div className="order-container">
@@ -105,11 +105,11 @@ function OrderPage() {
           </Button>
         </div>
       </div>
-    </OrderPageStyle>
+    </CreateOrderPageStyle>
   );
 }
 
-const OrderPageStyle = styled.div`
+const CreateOrderPageStyle = styled.div`
   .order-container {
     display: flex;
     gap: 24px;
@@ -131,4 +131,4 @@ const OrderPageStyle = styled.div`
   }
 `;
 
-export default OrderPage;
+export default CreateOrderPage;
