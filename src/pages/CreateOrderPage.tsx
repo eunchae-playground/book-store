@@ -10,7 +10,7 @@ import Title from "../components/common/Title";
 import OrderDeliveryForm from "../components/orders/OrderDeliveryForm";
 import OrderInfo from "../components/orders/OrderInfo";
 import useModal from "../hooks/useModal";
-import { DeliveryInfo, OrderBook } from "../models/order.model";
+import { CreateOrderRequest, DeliveryInfo } from "../models/order.model";
 import { useOrderStore } from "../store/OrderStore";
 
 function CreateOrderPage() {
@@ -64,9 +64,11 @@ function CreateOrderPage() {
     if (!showConfirm("주문하시겠습니까?")) return;
 
     try {
-      const orderBooks: OrderBook[] = checkedCartsArray.map(
-        ({ bookId, amount: bookAmount }) => ({ bookId, bookAmount })
-      );
+      const orderBooks: CreateOrderRequest["orderBooks"] =
+        checkedCartsArray.map(({ bookId, amount: bookAmount }) => ({
+          bookId,
+          bookAmount,
+        }));
       await createOrder({ deliveryInfo, orderBooks });
       isSubmitted.current = true;
       initializeCheckedCarts();

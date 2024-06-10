@@ -5,24 +5,24 @@ export interface DeliveryInfo {
   contact: string;
 }
 
-export interface OrderBook {
-  bookId: number;
-  bookAmount: number;
-}
-
 export interface CreateOrderRequest {
   deliveryInfo: DeliveryInfo;
-  orderBooks: OrderBook[];
+  orderBooks: {
+    bookId: number;
+    bookAmount: number;
+  }[];
 }
 
 export interface Order {
   id: number;
+  orderedAt: string;
   address: string;
   receiver: string;
-  bookTitle: string;
-  bookPrice: number;
-  bookAmount: number;
-  orderedAt: string;
+  orderBooks: {
+    title: string;
+    price: number;
+    amount: number;
+  }[];
 }
 
 export type OrdersResponse = Order[];
