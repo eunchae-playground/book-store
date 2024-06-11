@@ -1,19 +1,30 @@
+import { FaComment } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import AddCartSection from "../components/books/AddCartSection";
 import BookLikeButton from "../components/books/BookLikeButton";
+import BookReviewsList from "../components/books/BookReviewsList";
+import CreateBookReviewForm from "../components/books/CreateBookReviewForm";
 import EllipsisBox from "../components/common/EllipsisBox";
+import Empty from "../components/common/Empty";
+import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
 import useBook from "../hooks/useBook";
+import useBookReviews from "../hooks/useBookReviews";
 import { formatDate, formatNumber } from "../utils/format";
 
 function BookDetailPage() {
-  const { bookId } = useParams();
-  const { book, isLoading, error } = useBook(Number(bookId));
+  const bookId = Number(useParams()["bookId"]);
+  const { book, isLoading, error } = useBook(bookId);
+  const {
+    reviews,
+    isEmpty: reviewsIsEmpty,
+    isLoading: reviewsIsLoading,
+  } = useBookReviews(bookId);
 
   return (
     <BookDetailPageStyle>
-      {isLoading && <div>로딩중...</div>}
+      {isLoading && <SpinnerLoader />}
 
       {book && (
         <>
@@ -62,12 +73,29 @@ function BookDetailPage() {
               <AddCartSection bookId={book.id} />
             </div>
           </div>
+
           <div className="content">
             <Title size="medium">상세 설명</Title>
             <EllipsisBox>{book.detail}</EllipsisBox>
 
             <Title size="medium">목차</Title>
             <p className="table-of-contents">{book.tableOfContents}</p>
+          </div>
+
+          <div className="reviews">
+            <Title size="medium">리뷰</Title>
+            <CreateBookReviewForm bookId={bookId} />
+
+            {reviewsIsLoading && <SpinnerLoader />}
+            {reviews && !reviewsIsEmpty && (
+              <BookReviewsList reviews={reviews} />
+            )}
+            {reviews && reviewsIsEmpty && (
+              <Empty
+                icon={<FaComment />}
+                title="아직 리뷰가 존재하지 않습니다!"
+              />
+            )}
           </div>
         </>
       )}

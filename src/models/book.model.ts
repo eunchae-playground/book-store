@@ -42,3 +42,27 @@ export type BookResponse = Book;
 export interface ToggleBookLikeResponse {
   isLiked: boolean;
 }
+
+export interface BookReviewsRequest {
+  id: number;
+}
+
+export interface BookReview {
+  id: number;
+  userName: string;
+  content: string;
+  createdAt: string;
+  score: number;
+}
+
+export type BookReviewsResponse = BookReview[];
+
+export interface CreateBookReviewRequest {
+  routeParams: {
+    bookId: number;
+  };
+  payload: {
+    content: string;
+    score: number;
+  };
+}
