@@ -1,14 +1,12 @@
-import { FaSmileWink } from "react-icons/fa";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { styled } from "styled-components";
 import BooksFilter from "../components/books/BooksFilter";
 import BooksList from "../components/books/BooksList";
 import BooksViewSwitcher from "../components/books/BooksViewSwitcher";
-import Empty from "../components/common/Empty";
-import Pagination from "../components/common/Pagination";
+import ObserverTrigger from "../components/common/ObserverTrigger";
 import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
-import useBooks from "../hooks/useBooks";
+import useFetchBooks from "../hooks/queries/useFetchBooks";
 
 function BooksPage() {
   const [searchParams] = useSearchParams();
@@ -16,13 +14,15 @@ function BooksPage() {
     ? Number(searchParams.get("category_id"))
     : undefined;
   const latest = searchParams.has("latest") ? true : undefined;
-  const page = Number(searchParams.get("page") ?? 1);
 
-  const { books, pagination, isEmpty, isLoading } = useBooks(
-    categoryId,
-    latest,
-    page
-  );
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useFetchBooks(categoryId, latest);
 
   return (
     <>
@@ -33,19 +33,15 @@ function BooksPage() {
           <BooksViewSwitcher />
         </div>
 
-        {!books && isLoading && <SpinnerLoader />}
-        {books && !isEmpty && (
-          <>
-            <BooksList books={books!} />
-            <Pagination pagination={pagination!} />
-          </>
-        )}
-        {books && isEmpty && (
-          <Empty
-            icon={<FaSmileWink />}
-            title="검색 결과가 없습니다."
-            description={<Link to="/books">전체 검색 결과로 이동</Link>}
-          />
+        {isSuccess &&
+          data.pages.map((page) => (
+            <BooksList key={page.pagination.page} books={page.data} />
+          ))}
+
+        {(isLoading || isFetchingNextPage) && <SpinnerLoader />}
+
+        {hasNextPage && !isFetchingNextPage && (
+          <ObserverTrigger callback={fetchNextPage} />
         )}
       </BooksPageStyle>
     </>
