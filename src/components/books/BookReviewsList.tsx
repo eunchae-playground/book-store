@@ -4,11 +4,12 @@ import BookReviewItem from "./BookReviewItem";
 
 interface Props {
   reviews: BookReview[];
+  direction?: "column" | "row";
 }
 
-function BookReviewsList({ reviews }: Props) {
+function BookReviewsList({ reviews, direction = "column" }: Props) {
   return (
-    <BookReviewsListStyle>
+    <BookReviewsListStyle $direction={direction}>
       {reviews.map((review) => (
         <BookReviewItem key={review.id} review={review} />
       ))}
@@ -16,9 +17,13 @@ function BookReviewsList({ reviews }: Props) {
   );
 }
 
-const BookReviewsListStyle = styled.div`
+interface BookReviewsListStyleProps {
+  $direction: Props["direction"];
+}
+
+const BookReviewsListStyle = styled.div<BookReviewsListStyleProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ $direction }) => $direction};
   gap: 4px;
   margin-top: 24px;
 `;

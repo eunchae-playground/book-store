@@ -33,6 +33,8 @@ export interface BooksResponse {
   pagination: PaginationData;
 }
 
+export type BestSellerBooksResponse = Book[]
+
 export interface BookRequest {
   id: number;
 }
@@ -56,6 +58,8 @@ export interface BookReview {
 }
 
 export type BookReviewsResponse = BookReview[];
+
+export type LatestBookReviewsResponse = BookReview[];
 
 export interface CreateBookReviewRequest {
   routeParams: {

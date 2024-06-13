@@ -1,9 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchBooks } from "../../api/book.api";
 
-const useFetchBooks = (categoryId?: number, latest?: boolean) => {
+interface ParameterType {
+  categoryId?: number;
+  latest?: boolean;
+}
+
+const useFetchBooks = (params?: ParameterType) => {
+  const { categoryId, latest } = params || {};
+
   return useInfiniteQuery({
-    queryKey: ["books"],
+    queryKey: ["books", categoryId, latest],
     queryFn: ({ pageParam }) =>
       fetchBooks({ queryParams: { categoryId, latest, page: pageParam } }),
     initialPageParam: 1,

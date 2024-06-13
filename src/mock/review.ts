@@ -19,6 +19,13 @@ export const reviewsById = http.get(
   }
 );
 
+export const latestBookReviews = http.get(
+  "http://localhost:3000/books/latest-reviews",
+  () => {
+    return HttpResponse.json(mockBookReviewsData, { status: 200 });
+  }
+);
+
 export const createReview = http.post(
   "http://localhost:3000/books/:id([0-9]+)/reviews",
   () => {

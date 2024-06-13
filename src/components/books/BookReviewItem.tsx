@@ -22,7 +22,7 @@ function BookReviewItem({
         <span className="review-date">{formatDate(createdAt)}</span>
       </div>
 
-      <p>{content}</p>
+      <p className="content">{content}</p>
     </BookReviewItemStyle>
   );
 }
@@ -53,8 +53,12 @@ const BookReviewItemStyle = styled.div`
     }
   }
 
-  > p {
-    margin: 0;
+  .content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 

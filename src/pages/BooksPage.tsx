@@ -22,7 +22,7 @@ function BooksPage() {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useFetchBooks(categoryId, latest);
+  } = useFetchBooks({categoryId, latest});
 
   return (
     <>
