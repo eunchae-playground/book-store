@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { BestSellerBooksResponse } from "../models/book.model";
+import { BestSellerBooksResponse } from "../../models/book.model";
 
 const mockBestSellerBooks: BestSellerBooksResponse = [
   {
@@ -72,9 +72,13 @@ const mockBestSellerBooks: BestSellerBooksResponse = [
   },
 ];
 
-export const bestSellerBooks = http.get(
+const bestSellerBooks = http.get(
   "http://localhost:3000/books/best-seller",
   () => {
     return HttpResponse.json(mockBestSellerBooks, { status: 200 });
   }
 );
+
+const bookHandlers = [bestSellerBooks];
+
+export default bookHandlers;

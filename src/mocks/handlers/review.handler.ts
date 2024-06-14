@@ -1,6 +1,6 @@
 import { fakerKO as faker } from "@faker-js/faker";
 import { http, HttpResponse } from "msw";
-import { BookReviewsResponse } from "../models/book.model";
+import { BookReviewsResponse } from "../../models/book.model";
 
 const mockBookReviewsData: BookReviewsResponse = Array.from({ length: 8 }).map(
   (_, i) => ({
@@ -12,23 +12,27 @@ const mockBookReviewsData: BookReviewsResponse = Array.from({ length: 8 }).map(
   })
 );
 
-export const reviewsById = http.get(
+const reviewsById = http.get(
   "http://localhost:3000/books/:id([0-9]+)/reviews",
   () => {
     return HttpResponse.json(mockBookReviewsData, { status: 200 });
   }
 );
 
-export const latestBookReviews = http.get(
+const latestBookReviews = http.get(
   "http://localhost:3000/books/latest-reviews",
   () => {
     return HttpResponse.json(mockBookReviewsData, { status: 200 });
   }
 );
 
-export const createReview = http.post(
+const createReview = http.post(
   "http://localhost:3000/books/:id([0-9]+)/reviews",
   () => {
     return HttpResponse.json(null, { status: 201 });
   }
 );
+
+const reviewHandlers = [reviewsById, latestBookReviews, createReview];
+
+export default reviewHandlers;
