@@ -1,10 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import { styled } from "styled-components";
-import useCategories from "../../hooks/useCategories";
+import useFetchBookCategories from "../../hooks/queries/useFetchBookCategories";
 import Button from "../common/Button";
 
 function BooksFilter() {
-  const { categories } = useCategories();
+  const { data: categories, isSuccess: isSuccessFetchBookCategories } =
+    useFetchBookCategories();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClickCategoryButton = (id: number | null) => {
@@ -31,16 +32,22 @@ function BooksFilter() {
   return (
     <BooksFilterStyle>
       <div className="categories">
-        {categories.map((category) => (
-          <Button
-            size="medium"
-            scheme={category.isActive ? "primary" : "normal"}
-            key={category.id}
-            onClick={() => handleClickCategoryButton(category.id)}
-          >
-            {category.name}
-          </Button>
-        ))}
+        {isSuccessFetchBookCategories &&
+          [{ id: null, name: "전체" }, ...categories].map((category) => (
+            <Button
+              size="medium"
+              scheme={
+                searchParams.get("category_id") ===
+                (category.id ? category.id.toString() : null)
+                  ? "primary"
+                  : "normal"
+              }
+              key={category.id}
+              onClick={() => handleClickCategoryButton(category.id)}
+            >
+              {category.name}
+            </Button>
+          ))}
       </div>
 
       <div className="latest">

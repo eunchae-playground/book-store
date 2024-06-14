@@ -9,24 +9,30 @@ import EllipsisBox from "../components/common/EllipsisBox";
 import Empty from "../components/common/Empty";
 import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
-import useBook from "../hooks/useBook";
-import useBookReviews from "../hooks/useBookReviews";
+import useFetchBook from "../hooks/queries/useFetchBook";
+import useFetchBookReviews from "../hooks/queries/useFetchBookReviews";
 import { formatDate, formatNumber } from "../utils/format";
 
 function BookDetailPage() {
   const bookId = Number(useParams()["bookId"]);
-  const { book, isLoading, error } = useBook(bookId);
-  const {
-    reviews,
-    isEmpty: reviewsIsEmpty,
-    isLoading: reviewsIsLoading,
-  } = useBookReviews(bookId);
 
+  const {
+    data: book,
+    isLoading,
+    error,
+    isSuccess,
+  } = useFetchBook({ id: bookId });
+
+  const { data: reviews, isLoading: reviewsIsLoading } = useFetchBookReviews({
+    id: bookId,
+  });
+  const reviewsIsEmpty = reviews ? reviews.length === 0 : null;
+  
   return (
     <BookDetailPageStyle>
       {isLoading && <SpinnerLoader />}
 
-      {book && (
+      {isSuccess && (
         <>
           <div className="header">
             <img src={book.image} alt="book" />

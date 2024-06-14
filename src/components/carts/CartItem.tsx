@@ -1,7 +1,6 @@
-import { isAxiosError } from "axios";
 import { useState } from "react";
 import { styled } from "styled-components";
-import { deleteCart } from "../../api/cart.api";
+import useDeleteCart from "../../hooks/mutations/useDeleteCart";
 import useModal from "../../hooks/useModal";
 import { Cart } from "../../models/cart.model";
 import { useOrderStore } from "../../store/OrderStore";
@@ -10,16 +9,16 @@ import Button from "../common/Button";
 
 interface Props {
   cart: Cart;
-  refetchCarts: () => void;
 }
 
-function CartItem({ cart, refetchCarts }: Props) {
+function CartItem({ cart }: Props) {
   const cartStringId = `cart-${cart.id}`;
 
-  const { checkedCarts } = useOrderStore();
+  const { mutateAsync: deleteCartMutateAsync } = useDeleteCart({ id: cart.id });
+
+  const { showConfirm } = useModal();
+  const { checkedCarts, addCheckedCart, deleteCheckedCart } = useOrderStore();
   const [isChecked, setIsChecked] = useState(cart.bookId in checkedCarts);
-  const { showToast, showAlert, showConfirm } = useModal();
-  const { addCheckedCart, deleteCheckedCart } = useOrderStore();
 
   const handleCheckItem = () => {
     setIsChecked(!isChecked);
@@ -37,15 +36,9 @@ function CartItem({ cart, refetchCarts }: Props) {
     }
 
     try {
-      await deleteCart({ id: cart.id });
-      showToast("장바구니에서 삭제되었습니다.");
+      await deleteCartMutateAsync();
       deleteCheckedCart(cart);
-      refetchCarts();
-    } catch (error) {
-      if (isAxiosError(error)) {
-        showAlert(error.response?.data.message || error.message);
-      }
-    }
+    } catch (error) {}
   };
 
   return (

@@ -7,12 +7,14 @@ import Empty from "../components/common/Empty";
 import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
 import OrderDetailModal from "../components/orders/OrderDetailModal";
-import useOrders from "../hooks/useOrders";
+import useFetchOrders from "../hooks/queries/useFetchOrders";
 import { Order } from "../models/order.model";
 import { formatDate, formatNumber } from "../utils/format";
 
 function OrdersPage() {
-  const { orders, isEmpty, isLoading } = useOrders();
+  const { data: orders, isLoading } = useFetchOrders();
+  const isEmpty = orders?.length === 0;
+
   const [dialogOrder, setDialogOrder] = useState<Order | null>(null);
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
 

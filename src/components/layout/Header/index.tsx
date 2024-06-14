@@ -1,17 +1,26 @@
 import { FaRegUser, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../../../api/auth.api";
 import logo from "../../../assets/images/logo.png";
-import useCategories from "../../../hooks/useCategories";
+import useFetchBookCategories from "../../../hooks/queries/useFetchBookCategories";
 import useModal from "../../../hooks/useModal";
 import { useAuthStore } from "../../../store/authStore";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
+  const [searchParams] = useSearchParams();
+  const { pathname } = useLocation();
+
+  const { data: categories, isSuccess: isSuccessFetchBookCategories } =
+    useFetchBookCategories();
   const { showToast, showAlert } = useModal();
   const navigate = useNavigate();
-  const { categories } = useCategories();
   const { isLogin, storeLogout } = useAuthStore();
 
   const handleClickLogoutButton = async () => {
@@ -33,19 +42,27 @@ export default function Header() {
 
       <nav className="category">
         <ul>
-          {categories.map((category) => (
-            <li key={category.id}>
-              <Link
-                to={
-                  category.id === null
-                    ? "books"
-                    : `/books?category_id=${category.id}`
-                }
-              >
-                {category.name}
-              </Link>
-            </li>
-          ))}
+          {isSuccessFetchBookCategories &&
+            [{ id: null, name: "전체" }, ...categories].map((category) => (
+              <li key={category.id}>
+                <Link
+                  to={
+                    category.id === null
+                      ? "/books"
+                      : `/books?category_id=${category.id}`
+                  }
+                  className={
+                    pathname === "/books" &&
+                    searchParams.get("category_id") ===
+                      (category.id ? category.id.toString() : null)
+                      ? "active"
+                      : undefined
+                  }
+                >
+                  {category.name}
+                </Link>
+              </li>
+            ))}
         </ul>
       </nav>
 
@@ -118,6 +135,10 @@ const HeaderStyle = styled.header`
           font-weight: 600;
           color: ${({ theme }) => theme.color.text};
           text-decoration: none;
+
+          &.active {
+            color: ${({ theme }) => theme.color.primary};
+          }
 
           &:hover {
             color: ${({ theme }) => theme.color.primary};

@@ -70,3 +70,14 @@ export interface CreateBookReviewRequest {
     score: number;
   };
 }
+
+export interface BookCategory {
+  id: number | null;
+  name: string;
+  isActive?: boolean;
+}
+
+export type BookCategoriesResponse = Array<{
+  id: number;
+  name: string;
+}>;

@@ -4,14 +4,13 @@ import CartItem from "./CartItem";
 
 interface Props {
   carts: Cart[];
-  refetchCarts: () => void;
 }
 
-function CartsList({ carts, refetchCarts }: Props) {
+function CartsList({ carts }: Props) {
   return (
     <CartsListStyle>
       {carts.map((cart) => (
-        <CartItem key={cart.id} cart={cart} refetchCarts={refetchCarts} />
+        <CartItem key={cart.id} cart={cart} />
       ))}
     </CartsListStyle>
   );

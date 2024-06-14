@@ -1,5 +1,6 @@
 import {
   BestSellerBooksResponse,
+  BookCategoriesResponse,
   BookRequest,
   BookResponse,
   BookReviewsRequest,
@@ -67,6 +68,12 @@ export const createBookReview = async ({
     `/books/${routeParams.bookId}/reviews`,
     payload
   );
+
+  return response.data;
+};
+
+export const fetchBookCategories = async () => {
+  const response = await apiClient.get<BookCategoriesResponse>("/books/categories");
 
   return response.data;
 };

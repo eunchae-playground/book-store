@@ -7,12 +7,15 @@ import Button from "../components/common/Button";
 import Empty from "../components/common/Empty";
 import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
-import useCarts from "../hooks/useCarts";
+import useFetchCarts from "../hooks/queries/useFetchCarts";
 import { useOrderStore } from "../store/OrderStore";
 
 function CartsPage() {
   const navigate = useNavigate();
-  const { carts, isEmpty, isLoading, refetch } = useCarts();
+
+  const { data: carts, isLoading } = useFetchCarts();
+  const isEmpty = carts ? carts.length === 0 : null;
+
   const { isEmptyCheckedCarts } = useOrderStore();
 
   const handleClickOrderButton = () => {
@@ -26,7 +29,7 @@ function CartsPage() {
       {!carts && isLoading && <SpinnerLoader />}
       {carts && !isEmpty && (
         <div className="carts-container">
-          <CartsList carts={carts} refetchCarts={refetch} />
+          <CartsList carts={carts} />
           <div className="summary-and-button">
             <CartsOrderSummarySection />
             <Button
