@@ -1,10 +1,5 @@
 import { FaRegUser, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../../../api/auth.api";
 import logo from "../../../assets/images/logo.png";
@@ -20,7 +15,6 @@ export default function Header() {
   const { data: categories, isSuccess: isSuccessFetchBookCategories } =
     useFetchBookCategories();
   const { showToast, showAlert } = useModal();
-  const navigate = useNavigate();
   const { isLogin, storeLogout } = useAuthStore();
 
   const handleClickLogoutButton = async () => {
@@ -28,7 +22,6 @@ export default function Header() {
       await logout();
       storeLogout();
       showToast("로그아웃 되었습니다.");
-      navigate(0);
     } catch (error) {
       showAlert("로그아웃 도중 오류가 발생했습니다.");
     }
