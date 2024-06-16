@@ -15,7 +15,7 @@ function OrdersPage() {
   const { data: orders, isLoading } = useFetchOrders();
   const isEmpty = orders?.length === 0;
 
-  const [dialogOrder, setDialogOrder] = useState<Order | null>(null);
+  const [orderDetail, setOrderDetail] = useState<Order | null>(null);
   const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
 
   // Helper Functions
@@ -35,8 +35,8 @@ function OrdersPage() {
 
   // Event Handlers
   const handleClickMoreButton = (order: Order) => {
+    setOrderDetail(order);
     setIsOpenDetailModal(true);
-    setDialogOrder(order);
   };
 
   return (
@@ -84,7 +84,7 @@ function OrdersPage() {
             </tbody>
           </table>
           <OrderDetailModal
-            order={dialogOrder}
+            order={orderDetail}
             isOpen={isOpenDetailModal}
             setIsOpen={setIsOpenDetailModal}
           />
