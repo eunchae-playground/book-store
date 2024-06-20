@@ -15,13 +15,11 @@ function ProtectedRoute({ children, role, redirectTo = "/login" }: Props) {
   // 인증절차가 끝나기 전에 Route를 보여주는 것을 방지
   if (!isAuthFinished) return <></>;
 
-  switch (role) {
-    case "anonymousUser":
-      if (!isLogin) break;
-      return NavigatedRoute;
-    case "loginUser":
-      if (isLogin) break;
-      return NavigatedRoute;
+  if (role === "anonymousUser" && isLogin) {
+    return NavigatedRoute;
+  }
+  if (role === "loginUser" && !isLogin) {
+    return NavigatedRoute;
   }
 
   return children;
