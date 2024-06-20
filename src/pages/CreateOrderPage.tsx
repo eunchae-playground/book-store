@@ -11,7 +11,7 @@ import OrderDeliveryForm from "../components/orders/OrderDeliveryForm";
 import OrderInfo from "../components/orders/OrderInfo";
 import useModal from "../hooks/useModal";
 import { CreateOrderRequest, DeliveryInfo } from "../models/order.model";
-import { useOrderStore } from "../store/OrderStore";
+import { useCreateOrderStore } from "../store/createOrderStore";
 
 function CreateOrderPage() {
   const isSubmitted = useRef(false);
@@ -26,23 +26,23 @@ function CreateOrderPage() {
   const { showToast, showAlert, showConfirm } = useModal();
 
   const {
-    checkedCarts,
+    checkedBookCarts,
     deliveryInfo,
-    isEmptyCheckedCarts,
-    initializeCheckedCarts,
-  } = useOrderStore();
+    isEmptyCheckedBookCarts,
+    resetCheckedBookCarts,
+  } = useCreateOrderStore();
 
   // cartId 기준 오름차순으로 정렬
-  const checkedCartsArray = Object.values(checkedCarts).sort(
+  const checkedBookCartsArray = Object.values(checkedBookCarts).sort(
     ({ id: currentId }, { id: nextId }) => currentId - nextId
   );
 
   /*
   체크된 장바구니가 없을 때 "/"로 리다이렉트하는 로직인데,
-  주문이 완료됐을때 initializeCheckedCarts 함수가 호출되어 리렌더링이 되기 때문에
+  주문이 완료됐을때 resetCheckedBookCarts 함수가 호출되어 리렌더링이 되기 때문에
   주문이 완료되고 "/"로 가는걸 막기위해 !isSubmitted.current을 조건에 추가
   */
-  if (!isSubmitted.current && isEmptyCheckedCarts()) {
+  if (!isSubmitted.current && isEmptyCheckedBookCarts()) {
     return <Navigate to="/" replace />;
   }
 
@@ -59,19 +59,19 @@ function CreateOrderPage() {
   };
 
   const onSubmitOrder = async () => {
-    if (isEmptyCheckedCarts()) return;
+    if (isEmptyCheckedBookCarts()) return;
     if (!validateAddress()) return;
     if (!showConfirm("주문하시겠습니까?")) return;
 
     try {
       const orderBooks: CreateOrderRequest["orderBooks"] =
-        checkedCartsArray.map(({ bookId, amount: bookAmount }) => ({
+        checkedBookCartsArray.map(({ bookId, amount: bookAmount }) => ({
           bookId,
           bookAmount,
         }));
       await createOrder({ deliveryInfo, orderBooks });
       isSubmitted.current = true;
-      initializeCheckedCarts();
+      resetCheckedBookCarts();
       showToast("주문이 완료되었습니다.");
       navigate("/orders");
       return;
@@ -92,13 +92,13 @@ function CreateOrderPage() {
             formRegister={deliveryFormRegister}
             formErrors={deliveryFormErrors}
           />
-          <OrderInfo carts={checkedCartsArray} />
+          <OrderInfo carts={checkedBookCartsArray} />
         </div>
 
         <div className="summary-and-button">
           <CartsOrderSummarySection />
           <Button
-            disabled={isEmptyCheckedCarts()}
+            disabled={isEmptyCheckedBookCarts()}
             size="medium"
             scheme="primary"
             onClick={handleSubmit(onSubmitOrder, validateAddress)}

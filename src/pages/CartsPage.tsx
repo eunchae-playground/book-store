@@ -8,7 +8,7 @@ import Empty from "../components/common/Empty";
 import SpinnerLoader from "../components/common/SpinnerLoader";
 import Title from "../components/common/Title";
 import useFetchCarts from "../hooks/queries/useFetchCarts";
-import { useOrderStore } from "../store/OrderStore";
+import { useCreateOrderStore } from "../store/createOrderStore";
 
 function CartsPage() {
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ function CartsPage() {
   const { data: carts, isLoading } = useFetchCarts();
   const isEmpty = carts ? carts.length === 0 : null;
 
-  const { isEmptyCheckedCarts } = useOrderStore();
+  const { isEmptyCheckedBookCarts } = useCreateOrderStore();
 
   const handleClickOrderButton = () => {
-    if (isEmptyCheckedCarts()) return;
+    if (isEmptyCheckedBookCarts()) return;
     navigate("/orders/new");
   };
 
@@ -33,7 +33,7 @@ function CartsPage() {
           <div className="summary-and-button">
             <CartsOrderSummarySection />
             <Button
-              disabled={isEmptyCheckedCarts()}
+              disabled={isEmptyCheckedBookCarts()}
               size="medium"
               scheme="primary"
               onClick={handleClickOrderButton}

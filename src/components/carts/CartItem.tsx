@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { styled } from "styled-components";
 import useDeleteCart from "../../hooks/mutations/useDeleteCart";
 import useModal from "../../hooks/useModal";
 import { Cart } from "../../models/cart.model";
-import { useOrderStore } from "../../store/OrderStore";
+import { useCreateOrderStore } from "../../store/createOrderStore";
 import { formatNumber } from "../../utils/format";
 import Button from "../common/Button";
 
@@ -17,17 +16,12 @@ function CartItem({ cart }: Props) {
   const { mutateAsync: deleteCartMutateAsync } = useDeleteCart({ id: cart.id });
 
   const { showConfirm } = useModal();
-  const { checkedCarts, addCheckedCart, deleteCheckedCart } = useOrderStore();
-  const [isChecked, setIsChecked] = useState(cart.bookId in checkedCarts);
+  const { checkedBookCarts, toggleCheckedBookCart, deleteCheckedBookCart } =
+    useCreateOrderStore();
+  const isChecked = cart.bookId in checkedBookCarts;
 
   const handleCheckItem = () => {
-    setIsChecked(!isChecked);
-    // 리액트는 state 변경을 배치로 처리하므로 현재 isChecked는 바뀌기전 상태를 가진다.
-    if (isChecked) {
-      deleteCheckedCart(cart);
-    } else {
-      addCheckedCart(cart);
-    }
+    toggleCheckedBookCart(cart);
   };
 
   const handleClickDeleteCartButton = async () => {
@@ -37,7 +31,7 @@ function CartItem({ cart }: Props) {
 
     try {
       await deleteCartMutateAsync();
-      deleteCheckedCart(cart);
+      deleteCheckedBookCart(cart.bookId);
     } catch (error) {}
   };
 

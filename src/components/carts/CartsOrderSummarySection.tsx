@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
-import { useOrderStore } from "../../store/OrderStore";
+import { useCreateOrderStore } from "../../store/createOrderStore";
 import { formatNumber } from "../../utils/format";
 import Title from "../common/Title";
 
 function CartsOrderSummarySection() {
-  const { checkedCarts } = useOrderStore();
-  const [totalAmount, totalPrice] = Object.values(checkedCarts).reduce(
+  const { checkedBookCarts } = useCreateOrderStore();
+  const [totalAmount, totalPrice] = Object.values(checkedBookCarts).reduce(
     (totalAmountAndTotalPrice, { amount, price }) => {
       return [
         totalAmountAndTotalPrice[0] + amount,

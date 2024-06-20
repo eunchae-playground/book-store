@@ -8,8 +8,6 @@ export interface Cart {
   price: number;
 }
 
-export type CheckedCarts = Record<number, Cart>;
-
 export type CartsResponse = Cart[];
 
 export interface AddCartRequest {
